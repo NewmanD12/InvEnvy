@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, HttpResponse
-from .models import Item, User
+from .models import Item, Mileage, User
 from django.contrib import messages
 import bcrypt
 # Create your views here.
@@ -129,5 +129,26 @@ def add_to_backlog(request):
   return render(request, 'backlog_form.html', context)
 
 def mileage_sheet(request):
-  return render(request, 'mileage_sheet.html')
-  
+  context = {
+    'user' : User.objects.get(id = request.session['user_id']),
+    'mileages' : Mileage.objects.all()
+  }
+  return render(request, 'mileage_sheet.html', context)
+
+def add_mileage_sheet(request):
+  return render(request, 'add_mileage.html')
+
+def process_mileage(request):
+  errors = Mileage.objects.mileage_validator(request.POST)
+  if len(errors) > 0:
+    for msg in errors.values():
+      messages.error(request, msg)
+    return redirect('/add_mileage')
+
+  Mileage.objects.create(
+    travel_date = request.POST['travel_date'],
+    mileage = request.POST['mileage'],
+    purpose = request.POST['purpose'],
+    uploaded_by = User.objects.get(id = request.session['user_id'])
+  )  
+  return redirect('/mileage_sheet')

@@ -13,6 +13,9 @@ urlpatterns = [
     path('finance_page', views.finance_page),
     path('add_to_backlog', views.add_to_backlog),
     path('mileage_sheet', views.mileage_sheet),
+    path('add_mileage', views.add_mileage_sheet),
+    path('process_mileage', views.process_mileage),
     path('login', views.login),
     path('logout', views.logout),
+
 ]

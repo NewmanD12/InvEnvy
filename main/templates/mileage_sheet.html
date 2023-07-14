@@ -13,7 +13,33 @@
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-2">
+                <a href="/logout">Log Out</a>
+                <a href="/dashboard">Home</a>
                 <h1>Mileage Sheet</h1>
+                <a class="btn btn-primary" href="/add_mileage" role="button">Add Mileage</a>
+            </div> 
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <table>
+                    
+                    <thead>
+                        <th>Date Traveled</th>
+                        <th>Mileage</th>
+                        <th>Purpose</th>
+                    </thead>
+                    <tbody>
+                        {% for mileage in mileages %}
+                        {% if user.id == mileage.uploaded_by.id%}
+                        <tr>
+                            <td>{{mileage.travel_date}}</td>
+                            <td>{{mileage.mileage}}</td>
+                            <td>{{mileage.purpose}}</td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                      </tbody>
+                </table>
             </div>
         </div>
     </div>
