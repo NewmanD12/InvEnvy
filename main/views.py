@@ -35,6 +35,7 @@ def login(request):
     for msg in errors.values():
       messages.error(request, msg)  
   user_login_email = User.objects.filter(email=request.POST['email'])
+  print(user_login_email)
   if len(user_login_email) > 0:
     first_user = user_login_email[0]
     if bcrypt.checkpw(request.POST['password'].encode(), first_user.password.encode()):
@@ -42,6 +43,20 @@ def login(request):
       return redirect('/dashboard')
   messages.error(request, "Email/Password Invalid!")
   return redirect('/')
+
+# def login(request):
+#   errors = User.objects.registration_validator(request.POST)
+#   if len(errors) > 0:
+#     for msg in errors.values():
+#       messages.error(request, msg)  
+#   user_login_email = User.objects.filter(email=request.POST['email'])
+#   if len(user_login_email) > 0:
+#     first_user = user_login_email[0]
+#     if bcrypt.checkpw(request.POST['password'].encode(), first_user.password.encode()):
+#       request.session['user_id'] = first_user.id
+#       return redirect('/dashboard')
+#   messages.error(request, "Email/Password Invalid!")
+#   return redirect('/')
 
 def dashboard(request):
   if 'user_id' not in request.session:

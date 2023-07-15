@@ -2,6 +2,7 @@ from django.db import models
 import re
 
 class UserManager(models.Manager):
+  
   def user_validator(self, post_data):
     errors = {}
     if len(post_data['fname']) < 2: 
